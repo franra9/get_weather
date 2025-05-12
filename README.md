@@ -3,7 +3,7 @@
 ## Overview
 get weather is a Python library designed to provide point location weather predictoin.
 
-## Installation
+## Installation (WIP)
 you must install wgrib to get netcdf files and some other pythn packages 
 
 ```
