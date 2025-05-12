@@ -1,24 +1,26 @@
-# My Python Package
+# Get weather
 
 ## Overview
-My Python Package is a Python library designed to provide [brief description of the package functionality]. It aims to [explain the purpose and goals of the package].
+get weather is a Python library designed to provide point location weather predictoin.
 
 ## Installation
-To install My Python Package, you can use pip:
+you must install wgrib to get netcdf files and some other pythn packages 
 
 ```
 pip install my_python_package
 ```
 
 ## Usage
-Here is a simple example of how to use My Python Package:
+Here is a simple example of how to use get weather:
 
 ```python
-from my_python_package import module
+python3 get_gfs.py
+```
 
-# Example usage of the module
-result = module.some_function()
-print(result)
+or 
+
+```shell
+source main.sh
 ```
 
 ## Contributing
