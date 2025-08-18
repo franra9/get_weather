@@ -22,6 +22,9 @@ or
 ```shell
 source main.sh
 ```
+This will download GFS data for Olot and Barcelona for the next 96h and display it on screen:
+
+<img width="960" height="484" alt="Figure_1" src="https://github.com/user-attachments/assets/6a2ce52e-ff0e-4a78-835a-716cb036dd53" />
 
 ## Contributing
 Contributions are welcome! Please follow these steps to contribute:
