@@ -1,5 +1,6 @@
 # CHANGELOG:
 
-## v0.0.1
+## v0.0.1 (unreleased)
 
+- Bugfixed in the np.arrays for tp and ppt.
 - First version of the application, that clones GFS data locally to then plot the weather forecast for the next 96h in Olot and Barcelona.
