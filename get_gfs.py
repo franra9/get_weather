@@ -11,15 +11,17 @@ from datetime import timedelta
 # Coordinates for Barcelona and Olot, Catalonia
 locations = {
     "Barcelona": (41.3888, 2.159),
-    "Olot": (42.1854, 2.4881)
+#    "Olot": (42.1854, 2.4881)
 }
 
-# Time configuration (latest cycle and 4-day forecast)
+# Time configuration (latest cycle and 2-day forecast)
 now = datetime.utcnow()
 date_str = now.strftime('%Y%m%d')
 hour = (now.hour // 6) * 6
 cycle = f"{hour:02d}"
-forecast_hours = list(range(0, 96, 3))  # 4-day forecast, every 3 hours
+
+# 2-day forecast, every 3 hours
+forecast_hours = list(range(0, 49, 3))  # 2 days = 48h, 3h step
 
 # Bounding box around both locations
 all_lats = [lat for lat, lon in locations.values()]
@@ -85,18 +87,18 @@ for loc_name, (olat, olon) in locations.items():
             times.append(hour_label)
 
         # Load the NetCDF file using xarray
-        ds = xr.open_dataset(nc_path)
+        ds = xr.open_dataset(nc_path, engine="netcdf4")
 
         # Extract the relevant variables: TMP (temperature at 2m) and APCP (precipitation)
         temp = ds['TMP_2maboveground'].sel(latitude=olat, longitude=olon, method='nearest').values - 273.15  # Convert K to °C
         if fhr != '000':
             precip = ds['APCP_surface'].sel(latitude=olat, longitude=olon, method='nearest').values  # Precipitation in mm
-            precipitation.append(precip - precip0)
+            precipitation.append((precip - precip0).item())
             precip0 = precip
         else:
             precip0 = 0
             precipitation.append(0)
-        temperature.append(temp)
+        temperature.append(temp.item())
     results[loc_name] = {"temperature": temperature, "precipitation": precipitation}
 
 # Plot the results
@@ -117,7 +119,10 @@ ax2.set_ylabel('Precipitation (mm)', color='tab:blue')
 width = 0.35
 x = np.arange(len(times))
 for i, loc_name in enumerate(locations):
-    offset = (i - 0.5) * width
+    offset = (i - 0.1) * width
+
+    print(results[loc_name]["precipitation"])
+
     ax2.bar(x + offset, results[loc_name]["precipitation"], width=width, alpha=0.5, label=f'Precipitation {loc_name}')
 ax2.tick_params(axis='y', labelcolor='tab:blue')
 
@@ -127,7 +132,7 @@ lines2, labels2 = ax2.get_legend_handles_labels()
 ax1.legend(lines + lines2, labels + labels2, loc='upper left')
 
 # Title and layout
-plt.title('4-Day Weather Forecast: Barcelona vs Olot (Catalonia)')
+plt.title('2-Day Weather Forecast: Barcelona(Catalonia)')
 fig.tight_layout()
 
 # Show plot
